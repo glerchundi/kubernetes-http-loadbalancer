@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1beta3
+metadata: 
+  name: loadbalancer
+  labels: 
+    name: loadbalancer
+spec:
+  selector: 
+    name: http-loadbalancer
+  ports: 
+    - port: 80
+      targetPort: 80
+      protocol: TCP

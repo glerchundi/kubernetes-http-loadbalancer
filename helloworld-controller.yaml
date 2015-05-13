@@ -1,0 +1,24 @@
+kind: ReplicationController
+apiVersion: v1beta3
+metadata: 
+  name: helloworld
+  labels: 
+    name: helloworld
+spec: 
+  replicas: 3
+  selector: 
+    name: helloworld
+  template: 
+    metadata: 
+      labels: 
+        name: helloworld
+    spec: 
+      containers: 
+        - name: helloworld
+          image: quay.io/glerchundi/helloworld
+          ports: 
+            - containerPort: 8080
+              protocol: TCP
+          env: 
+            - name: "PORT"
+              value: "8080"

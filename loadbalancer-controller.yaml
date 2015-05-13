@@ -1,0 +1,42 @@
+kind: ReplicationController
+apiVersion: v1beta3
+metadata: 
+  name: http-loadbalancer
+  labels: 
+    name: http-loadbalancer
+spec: 
+  replicas: 1
+  selector: 
+    name: http-loadbalancer
+  template: 
+    metadata: 
+      labels: 
+        name: http-loadbalancer
+    spec: 
+      containers:
+        - name: etcd
+          image: quay.io/coreos/etcd:v2.0.10
+          command: [
+            "/etcd",
+            "--proxy=on",
+            "--initial-cluster=master=http://172.17.8.101:2380",
+            "--listen-client-urls=http://127.0.0.1:2379",
+          ]
+        - name: nginx-loadbalancer
+          image: quay.io/justcontainers/nginx-loadbalancer:v0.2.0
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: CONFD_PREFIX
+              value: /lb
+            - name: ETCDCTL_PEERS
+              value: http://127.0.0.1:2379
+        - name: loadbalancer-feeder
+          image: quay.io/justcontainers/loadbalancer-feeder:v0.1.0
+          env:
+            - name: ETCD_PREFIX
+              value: /lb
+            - name: ETCDCTL_PEERS
+              value: http://127.0.0.1:2379
