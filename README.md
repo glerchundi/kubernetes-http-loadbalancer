@@ -4,7 +4,7 @@ a complete working example of a HTTP loadbalancer using nginx & kubernetes.
 It uses:
 
 * [`nginx-loadbalancer`](https://github.com/just-containers/nginx-loadbalancer): nginx + confd based loadbalancer (in this case etcd is used as a backend).
-* [`loadbalancer-feeder`](https://github.com/just-containers/loadbalancer-feeder): [`kubelistener`]() listens to kubernetes pod events and changes etcd accordingly following our loadbalancer rules. 
+* [`loadbalancer-feeder`](https://github.com/just-containers/loadbalancer-feeder): [`kubelistener`](https://github.com/glerchundi/kubelistener) listens to kubernetes pod events and changes etcd accordingly following our loadbalancer rules. 
 * [`helloworld`](https://github.com/glerchundi/docker-helloworld): It renders the `'Hello from <hostname>'` message as a http response in order to identify if it's actually doing the load balancing.
 
 ```
